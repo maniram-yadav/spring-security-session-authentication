@@ -6,8 +6,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.util.SerializationUtils;
+
+import com.example.model.ResponseDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 public class AccessDeniedException implements AccessDeniedHandler {
@@ -16,9 +21,10 @@ public class AccessDeniedException implements AccessDeniedHandler {
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			org.springframework.security.access.AccessDeniedException accessDeniedException)
 			throws IOException, ServletException {
-			response.addHeader("error-msg", "Anynomus Exception");
-			response.getOutputStream().write(accessDeniedException.getMessage().getBytes());
-		
+			ResponseDTO responseDTO=new ResponseDTO();
+			responseDTO.setResponseCode(HttpStatus.METHOD_NOT_ALLOWED.value());
+			responseDTO.setErrorMessage(accessDeniedException.getMessage());
+			response.getOutputStream().write(new ObjectMapper().writeValueAsString(responseDTO).getBytes());
 	}
 
 }

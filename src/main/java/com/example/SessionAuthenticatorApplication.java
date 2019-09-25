@@ -80,7 +80,7 @@ public class SessionAuthenticatorApplication implements CommandLineRunner {
 		users.setName("monu");
 		users.setEmail("monu@gmail.com");
 		users.setPassword(bCryptPasswordEncoder.encode("monu"));
-		users.setRoles(roles.subList(1, 2));
+		users.setRoles(roles.subList(2, 3));
 		userDetail.add(users);
 
 		userCrudRepository.save(userDetail);
