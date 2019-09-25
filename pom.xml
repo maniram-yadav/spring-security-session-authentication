@@ -71,22 +71,6 @@
 			<version>0.9.0</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-			<version>LATEST</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-			<version>LATEST</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>LATEST</version>
-		</dependency>
-
 		<!-- <dependency> <groupId>io.projectreactor</groupId> <artifactId>reactor-test</artifactId> 
 			<scope>test</scope> </dependency> -->
 		<dependency>
