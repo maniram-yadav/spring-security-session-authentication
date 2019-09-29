@@ -24,35 +24,36 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-
-	Logger LOGGER=LoggerFactory.getLogger(AuthenticationFilter.class);
+	Logger LOGGER = LoggerFactory.getLogger(AuthenticationFilter.class);
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-		LoginRequest log=null;
+		LoginRequest log = null;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		LOGGER.debug("Inside attemptAuthentication ");
+		if (auth != null) {
+			return getAuthenticationManager().authenticate(auth);
+		}
 		try {
-			 log=new ObjectMapper().readValue(request.getInputStream(),LoginRequest.class);
+			log = new ObjectMapper().readValue(request.getInputStream(), LoginRequest.class);
 		} catch (Exception e) {
 			e.printStackTrace();
-			LOGGER.error("Exception : ",e);
-		} 
-		Authentication auth=new UsernamePasswordAuthenticationToken(log.getEmail(), log.getPassword());
+			LOGGER.error("Exception : ", e);
+		}
+		auth = new UsernamePasswordAuthenticationToken(log.getEmail(), log.getPassword());
 		SecurityContextHolder.getContext().setAuthentication(auth);
 		return getAuthenticationManager().authenticate(auth);
-		
+
 	}
 
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
-		ResponseDTO responseDTO=new ResponseDTO();
+		ResponseDTO responseDTO = new ResponseDTO();
 		responseDTO.setResponseCode(HttpStatus.OK.value());
 		responseDTO.setData("Account logged in successfully");
 		response.getOutputStream().write(new ObjectMapper().writeValueAsString(responseDTO).getBytes());
-	}	
-	
-	
-	
+	}
+
 }
